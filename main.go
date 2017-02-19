@@ -16,62 +16,26 @@ func main() {
 	}
 	defer config.Close()
 
-	listMethod := "/api/list/"
-	http.HandleFunc(listMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "GET", listMethod, wrapper.WebList)
-	})
-	matchMethod := "/api/match/"
-	http.HandleFunc(matchMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "GET", matchMethod, wrapper.WebMatch)
-	})
-	getMethod := "/api/get/"
-	http.HandleFunc(getMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "GET", getMethod, wrapper.WebGet)
-	})
-	allMethod := "/api/all/"
-	http.HandleFunc(allMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "GET", allMethod, wrapper.WebGetAll)
-	})
-	labelMethod := "/api/label/"
-	http.HandleFunc(labelMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "GET", labelMethod, wrapper.WebGetLabel)
-	})
-	setMethod := "/api/set/"
-	http.HandleFunc(setMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "PUT", setMethod, wrapper.WebSet)
-	})
-	multisetMethod := "/api/multiset/"
-	http.HandleFunc(multisetMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "PUT", multisetMethod, wrapper.WebSetMultiple)
-	})
-	clearMethod := "/api/clear/"
-	http.HandleFunc(clearMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "DELETE", clearMethod, wrapper.WebClear)
-	})
-	insertBeforeMethod := "/api/insert-before/"
-	http.HandleFunc(insertBeforeMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "POST", insertBeforeMethod, wrapper.WebInsertBefore)
-	})
-	insertAfterMethod := "/api/insert-after/"
-	http.HandleFunc(insertAfterMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "POST", insertAfterMethod, wrapper.WebInsertAfter)
-	})
-	removeMethod := "/api/remove/"
-	http.HandleFunc(removeMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "DELETE", removeMethod, wrapper.WebRemove)
-	})
-	moveMethod := "/api/move/"
-	http.HandleFunc(moveMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "PATCH", moveMethod, wrapper.WebMove)
-	})
-	reloadMethod := "/api/reload/"
-	http.HandleFunc(reloadMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "PATCH", reloadMethod, wrapper.WebReload)
-	})
-	saveMethod := "/api/save/"
-	http.HandleFunc(saveMethod, func(w http.ResponseWriter, r *http.Request) {
-		config.HandleRequest(w, r, "PATCH", saveMethod, wrapper.WebSave)
-	})
+	handle := func(prefix string, method string, handler RequestHandler) {
+		http.HandleFunc(prefix, func(w http.ResponseWriter, r *http.Request) {
+			config.HandleRequest(w, r, method, prefix, handler)
+		})
+	}
+
+	handle("/api/list/", "GET", wrapper.WebList)
+	handle("/api/match/", "GET", wrapper.WebMatch)
+	handle("/api/get/", "GET", wrapper.WebGet)
+	handle("/api/all/", "GET", wrapper.WebGetAll)
+	handle("/api/label/", "GET", wrapper.WebGetLabel)
+	handle("/api/set/", "PUT", wrapper.WebSet)
+	handle("/api/multiset/", "PUT", wrapper.WebSetMultiple)
+	handle("/api/clear/", "PUT", wrapper.WebClear)
+	handle("/api/insert-before/", "POST", wrapper.WebInsertBefore)
+	handle("/api/insert-after/", "POST", wrapper.WebInsertAfter)
+	handle("/api/remove/", "DELETE", wrapper.WebRemove)
+	handle("/api/move/", "PATCH", wrapper.WebMove)
+	handle("/api/reload/", "PATCH", wrapper.WebReload)
+	handle("/api/save/", "PATCH", wrapper.WebSave)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
