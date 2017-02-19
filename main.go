@@ -14,6 +14,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
+	defer config.Close()
 
 	listMethod := "/api/list/"
 	http.HandleFunc(listMethod, func(w http.ResponseWriter, r *http.Request) {
@@ -73,6 +74,4 @@ func main() {
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
-
-	config.Close()
 }
