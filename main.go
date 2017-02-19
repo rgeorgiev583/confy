@@ -16,7 +16,7 @@ func main() {
 	}
 	defer config.Close()
 
-	handle := func(prefix string, method string, handler RequestHandler) {
+	handle := func(prefix string, method string, handler wrapper.RequestHandler) {
 		http.HandleFunc(prefix, func(w http.ResponseWriter, r *http.Request) {
 			config.HandleRequest(w, r, method, prefix, handler)
 		})
