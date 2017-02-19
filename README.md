@@ -63,3 +63,16 @@ the JSON `source` property in the request string to the path passed as the JSON
 configuration files.
 * `PATCH /api/save/$PATH`:  persists the Augeas configuration tree into the mapped
 configuration files.
+
+
+# Installation
+
+To begin, you will need a Linux system (actually, any kind of Unix system would
+suffice if Augeas has been ported to it).
+
+You will also need to download and install the Augeas library, preferably from your
+distribution's software repositories.
+
+After that, you can simply use `go get` to install the software:
+
+		$ go get github.com/rgeorgiev583/confy
