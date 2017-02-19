@@ -12,7 +12,7 @@ import (
 func main() {
 	config, err := wrapper.New("/", "", 0)
 	if err != nil {
-		log.Fatalln(err.Error())
+		log.Fatal(err.Error())
 	}
 	defer config.Close()
 
