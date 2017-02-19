@@ -113,7 +113,7 @@ func ParseRequestBodyParams(r *http.Request) (ParamMap, error) {
 }
 
 func (wrapper ConfigWrapper) List(path string) ([]string, error) {
-	return wrapper.Match(path + "/*")
+	return wrapper.Match(path + "*")
 }
 
 func WebList(wrapper ConfigWrapper, path string, r *http.Request) (interface{}, error) {
